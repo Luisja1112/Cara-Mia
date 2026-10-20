@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Para Daira 🌷</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden}
+  body{
+    background:linear-gradient(#0a051f 0%,#241040 50%,#5b2050 100%);
+    font-family:"Dancing Script","Segoe Script","Brush Script MT",cursive;
+    color:#fff5fa;
+  }
+  #sky{position:absolute;inset:0;z-index:0}
+  .star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--t) ease-in-out infinite alternate;animation-delay:var(--dl)}
+  @keyframes twinkle{from{opacity:.1;transform:scale(.7)}to{opacity:.95;transform:scale(1.2)}}
+  .moon{
+    position:absolute;z-index:1;top:6vh;right:7vw;width:clamp(50px,8vw,96px);aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#fffdf0,#f3e9c8 60%,#d9cfae);
+    box-shadow:0 0 40px 12px rgba(255,244,200,.35),0 0 120px 40px rgba(255,220,240,.15);
+    animation:moonGlow 6s ease-in-out infinite alternate;
+  }
+  @keyframes moonGlow{from{filter:brightness(.95)}to{filter:brightness(1.1)}}
+  #fx{position:absolute;inset:0;z-index:3;pointer-events:none}
+
+  #garden{position:absolute;left:0;bottom:0;width:100%;height:74vh;z-index:2}
+  #garden:not(.go) *{animation-play-state:paused!important}
+
+  .stem{fill:none;stroke:#3b8c49;stroke-dasharray:1;stroke-dashoffset:1;
+        animation:draw 2.2s cubic-bezier(.3,.6,.3,1) both;animation-delay:var(--d)}
+  @keyframes draw{to{stroke-dashoffset:0}}
+
+  .plant{transform-box:view-box;animation:sway var(--dur) ease-in-out infinite alternate;animation-delay:var(--sd)}
+  @keyframes sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+
+  .grow{transform-box:view-box;transform-origin:0px 0px;animation:pop 1.2s cubic-bezier(.2,.9,.3,1.1) both;animation-delay:var(--d)}
+  @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+
+  .cbloom{transform-box:view-box;transform-origin:50px 125px;animation:callaOpen 1.9s cubic-bezier(.2,.9,.3,1.15) both;animation-delay:var(--d)}
+  @keyframes callaOpen{from{transform:scale(.04) rotate(-25deg)}to{transform:scale(1) rotate(0)}}
+
+  .petal{transform-box:view-box;transform-origin:0px 0px;
+         animation:petalOpen 1.5s cubic-bezier(.25,1.2,.4,1) both;
+         animation-delay:calc(var(--d) + var(--i) * .12s)}
+  @keyframes petalOpen{from{transform:scale(.02);opacity:0}to{transform:scale(1);opacity:1}}
+
+  .stamens{transform-box:view-box;transform-origin:0px 0px;animation:petalOpen 1.2s ease-out both;animation-delay:var(--d)}
+
+  .halo{animation:halo 4s ease-in-out infinite alternate;animation-delay:var(--d)}
+  @keyframes halo{from{opacity:0}30%{opacity:.3}to{opacity:.65}}
+
+  .head{cursor:pointer;transition:filter .3s}
+  .head:hover{filter:drop-shadow(0 0 12px #ffd6ec) brightness(1.05)}
+
+  .blade{fill:none;stroke:#2f7d3b;stroke-width:2.5;stroke-linecap:round;transform-box:view-box;
+         animation:grassUp 1.4s ease-out both,windy 3s ease-in-out infinite alternate;
+         animation-delay:var(--d),calc(var(--d) + 1.4s)}
+  @keyframes grassUp{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  @keyframes windy{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+
+  #card{
+    position:absolute;z-index:4;top:5vh;left:50%;transform:translateX(-50%);
+    width:min(88vw,680px);padding:22px 26px;text-align:center;border-radius:24px;
+    background:rgba(255,255,255,.07);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 50px rgba(0,0,0,.3);
+    opacity:0;transition:opacity 1.2s;
+  }
+  #card.in{opacity:1}
+  #msg{margin:0;font-weight:500;font-size:clamp(1.3rem,3.6vw,2rem);line-height:1.45;
+       transition:opacity .5s,filter .5s,transform .5s}
+  #msg.out{opacity:0;filter:blur(6px);transform:translateY(8px)}
+
+  #next{
+    position:absolute;z-index:5;bottom:2.5vh;left:50%;transform:translateX(-50%);
+    font:700 1.1rem "Dancing Script",cursive;color:#fff;border:1px solid rgba(255,255,255,.35);
+    background:rgba(255,255,255,.12);padding:8px 20px;border-radius:999px;cursor:pointer;
+    backdrop-filter:blur(6px);opacity:0;transition:opacity 1.2s,background .3s;
+  }
+  #next.in{opacity:1}
+  #next:hover{background:rgba(255,255,255,.25)}
+  #sign{position:absolute;z-index:4;right:4vw;bottom:2.5vh;font-size:1.3rem;opacity:0;transition:opacity 2s;color:#ffd6ec;text-shadow:0 0 10px rgba(255,150,200,.6)}
+  #sign.in{opacity:.9}
+
+  #intro{
+    position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:24px;background:radial-gradient(circle at 50% 40%,rgba(60,20,70,.55),rgba(8,3,24,.95));
+    transition:opacity 1.6s;
+  }
+  #intro.hide{opacity:0;pointer-events:none}
+  #intro h1{font-size:clamp(2.6rem,9vw,5rem);margin:0;font-weight:700;
+    background:linear-gradient(90deg,#ffd1e8,#fff,#ffb3d9);-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:floaty 4s ease-in-out infinite alternate}
+  #intro .sub{font-size:clamp(1.4rem,4.5vw,2.2rem);margin:.2em 0 1em;color:#ffc9e3}
+  #intro .small{max-width:440px;font-size:1.25rem;opacity:.85;margin:0 0 1.6em;line-height:1.4}
+  #open{
+    font:700 1.5rem "Dancing Script",cursive;color:#fff;cursor:pointer;border:none;padding:12px 34px;border-radius:999px;
+    background:linear-gradient(135deg,#ff7eb8,#c04a9b);box-shadow:0 0 30px rgba(255,120,190,.55);
+    animation:pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  @keyframes floaty{from{transform:translateY(-6px)}to{transform:translateY(6px)}}
+</style>
+</head>
+<body>
+
+<div id="sky"></div>
+<div class="moon"></div>
+
+<svg id="garden" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMax meet" aria-label="Alcatraces y lirios">
+  <defs>
+    <linearGradient id="gCallaW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dcd6ee"/></linearGradient>
+    <linearGradient id="gCallaF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f1ecfa"/></linearGradient>
+    <linearGradient id="gCallaP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0f7"/><stop offset="1" stop-color="#eeaccd"/></linearGradient>
+    <linearGradient id="gCallaPF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff8fb"/><stop offset="1" stop-color="#f8cfe2"/></linearGradient>
+    <radialGradient id="gLilyPink" cx="0.5" cy="1" r="1" fx="0.5" fy="1">
+      <stop offset="0" stop-color="#b3125a"/><stop offset=".3" stop-color="#ff5fa5"/><stop offset=".75" stop-color="#ffb3d1"/><stop offset="1" stop-color="#ffe6f0"/>
+    </radialGradient>
+    <radialGradient id="gLilyWhite" cx="0.5" cy="1" r="1" fx="0.5" fy="1">
+      <stop offset="0" stop-color="#d9ec9a"/><stop offset=".25" stop-color="#fffbe8"/><stop offset=".7" stop-color="#ffffff"/><stop offset="1" stop-color="#ffe9f2"/>
+    </radialGradient>
+    <linearGradient id="gLeaf" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#276b34"/><stop offset="1" stop-color="#58b862"/></linearGradient>
+    <radialGradient id="gHalo"><stop offset="0" stop-color="rgba(255,200,230,.55)"/><stop offset="1" stop-color="rgba(255,200,230,0)"/></radialGradient>
+    <linearGradient id="gGround" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18401f"/><stop offset="1" stop-color="#06140b"/></linearGradient>
+  </defs>
+
+  <g id="plants"></g>
+  <path d="M0 640 L0 592 Q250 565 500 590 T1000 588 L1000 640Z" fill="url(#gGround)"/>
+  <g id="grass"></g>
+</svg>
+
+<canvas id="fx"></canvas>
+
+<div id="card"><p id="msg"></p></div>
+<button id="next">Otro mensaje 💌</button>
+<div id="sign"></div>
+
+<div id="intro">
+  <h1 id="tTitle"></h1>
+  <div class="sub" id="tSub"></div>
+  <p class="small">Unas flores que no te piden nada. Solo quieren acompañarte un ratito. 🌷</p>
+  <button id="open">Abrir mi regalo 🌷</button>
+</div>
+
+<script>
+/* ====== PERSONALIZA AQUÍ ====== */
+const PARA   = "Daira";
+const APODO  = "tomatito cherry";
+const FIRMA  = "Con todo mi cariño"; // puedes agregar tu nombre: "Con todo mi cariño, Tu Nombre"
+
+const MSGS = [
+  "Hola, mi tomatito cherry. Estas flores no te piden nada, solo quieren acompañarte hoy. 🌷",
+  "Tómate todo el tiempo que necesites. No tengo prisa: lo que siento por ti no se acaba por esperar.",
+  "No tienes que ser fuerte todos los días. Hoy puedes ser simplemente tú, y eso ya es suficiente.",
+  "Gracias por decirme las cosas con honestidad. Eso habla de lo valiosa que eres.",
+  "Los días difíciles también terminan. Aunque hoy no lo parezca, estás haciendo más de lo que crees.",
+  "Tu espacio es tuyo y lo respeto con todo mi corazón. Esto es solo un abrazo a distancia. 🤍",
+  "Eres mi tomatito cherry favorito del universo entero. 🍅",
+  "Pase lo que pase en tu cabeza hoy, tu corazón sigue siendo de lo más bonito que conozco.",
+  "No tienes que responder esto. Solo quería que supieras que alguien piensa en ti con mucho cariño.",
+  "Respira hondo. Un paso a la vez. Ya has superado el 100% de tus días difíciles. 💗",
+  "Cuando quieras hablar, aquí estoy. Cuando quieras silencio, también aquí estoy.",
+  "Mereces descanso, cariño y cosas bonitas, y no tienes que ganártelos. 🌸"
+];
+/* ================================ */
+
+document.getElementById('tTitle').textContent = "Para " + PARA;
+document.getElementById('tSub').textContent = "mi " + APODO + " 🍅";
+document.getElementById('sign').textContent = FIRMA + " ♥";
+
+const NS = 'http://www.w3.org/2000/svg';
+const rnd = (a,b)=>a+Math.random()*(b-a);
+function h(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for(const k in (attrs||{})) e.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+
+/* ---------- estrellas ---------- */
+const sky = document.getElementById('sky');
+for(let i=0;i<90;i++){
+  const s = document.createElement('div');
+  const sz = rnd(1,3);
+  s.className = 'star';
+  s.style.cssText = `left:${rnd(0,100)}%;top:${rnd(0,62)}%;width:${sz}px;height:${sz}px;--t:${rnd(1.5,4)}s;--dl:${rnd(0,4)}s`;
+  sky.appendChild(s);
+}
+
+/* ---------- jardín ---------- */
+const BASE = 600;
+const garden = document.getElementById('garden');
+const gPlants = document.getElementById('plants');
+
+const plants = [
+  {kind:'lily',  x:150, top:330, bend:-14, s:.62, tilt:-6,  delay:.2,  tone:'pink'},
+  {kind:'calla', x:265, top:300, bend:-18, s:.85, tilt:-10, delay:.5,  tone:'white'},
+  {kind:'lily',  x:385, top:235, bend:16,  s:.68, tilt:4,   delay:.8,  tone:'white'},
+  {kind:'calla', x:500, top:190, bend:6,   s:1.05,tilt:4,   delay:1.1, tone:'white'},
+  {kind:'lily',  x:615, top:245, bend:-16, s:.70, tilt:-4,  delay:1.4, tone:'pink'},
+  {kind:'calla', x:735, top:300, bend:18,  s:.85, tilt:10,  delay:1.7, tone:'pink'},
+  {kind:'lily',  x:850, top:335, bend:14,  s:.62, tilt:6,   delay:2.0, tone:'white'}
+];
+
+function bez(P,t){
+  const u=1-t;
+  return {
+    x:u*u*u*P[0].x+3*u*u*t*P[1].x+3*u*t*t*P[2].x+t*t*t*P[3].x,
+    y:u*u*u*P[0].y+3*u*u*t*P[1].y+3*u*t*t*P[2].y+t*t*t*P[3].y
+  };
+}
+
+plants.forEach((c,i)=>{
+  const hx = c.x + c.bend, d = BASE - c.top, sd = c.delay;
+  const P = [{x:c.x,y:BASE},{x:c.x,y:BASE-d*.4},{x:hx,y:c.top+d*.35},{x:hx,y:c.top}];
+  const pl = h('g',{class:'plant',style:`transform-origin:${c.x}px ${BASE}px;--sd:${-i*0.7}s;--dur:${5+(i%3)}s`},gPlants);
+
+  // tallo
+  h('path',{
+    class:'stem',pathLength:1,
+    d:`M${P[0].x} ${P[0].y} C${P[1].x} ${P[1].y} ${P[2].x} ${P[2].y} ${P[3].x} ${P[3].y}`,
+    style:`--d:${sd}s;stroke-width:${c.kind==='calla'?6:5}`
+  },pl);
+
+  if(c.kind==='calla'){
+    // hojas grandes en la base
+    const lg = h('g',{transform:`translate(${c.x} ${BASE})`},pl);
+    [[-18,1],[22,.85],[-52,.7]].forEach(([rot,sc],k)=>{
+      const w = h('g',{transform:`rotate(${rot}) scale(${sc*c.s})`},lg);
+      const a = h('g',{class:'grow',style:`--d:${sd+.5+k*.2}s`},w);
+      h('path',{d:'M0 0 C-34 -30 -44 -90 -4 -150 C34 -96 34 -36 0 0Z',fill:'url(#gLeaf)'},a);
+      h('path',{d:'M0 0 L-2 -120',stroke:'rgba(255,255,255,.25)','stroke-width':1.5,fill:'none'},a);
+    });
+
+    // flor alcatraz
+    const head = h('g',{class:'head','data-i':i,
+      transform:`translate(${hx} ${c.top}) rotate(${c.tilt}) scale(${c.s}) translate(-50 -125)`},pl);
+    h('circle',{cx:50,cy:60,r:90,fill:'url(#gHalo)',class:'halo',style:`--d:${sd+2.4}s`},head);
+    const b = h('g',{class:'cbloom',style:`--d:${sd+1.9}s`},head);
+    const pink = c.tone==='pink';
+    h('path',{d:'M50 128 C16 116 14 60 44 6 C48 30 80 48 78 80 C76 110 64 122 50 128Z',
+      fill:pink?'url(#gCallaP)':'url(#gCallaW)',stroke:'rgba(0,0,0,.08)','stroke-width':1},b);
+    h('ellipse',{cx:55,cy:58,rx:5.5,ry:21,fill:'#f6c945',transform:'rotate(8 55 58)'},b);
+    h('ellipse',{cx:54,cy:52,rx:2,ry:9,fill:'rgba(255,255,255,.35)',transform:'rotate(8 55 58)'},b);
+    h('path',{d:'M50 128 C32 120 30 96 40 78 C50 90 66 92 74 84 C74 108 64 122 50 128Z',
+      fill:pink?'url(#gCallaPF)':'url(#gCallaF)',stroke:'rgba(0,0,0,.06)','stroke-width':1},b);
+    h('path',{d:'M44 14 C30 50 28 90 40 112',stroke:'rgba(255,255,255,.75)','stroke-width':2,fill:'none','stroke-linecap':'round'},b);
+  } else {
+    // hojas lanceoladas a lo largo del tallo
+    [.22,.4,.58].forEach((t,k)=>{
+      const p = bez(P,t), side = k%2 ? 1 : -1;
+      const w = h('g',{transform:`translate(${p.x} ${p.y}) rotate(${side*55})`},pl);
+      const a = h('g',{class:'grow',style:`--d:${sd+.4+k*.25}s`},w);
+      h('path',{d:'M0 0 C-9 -14 -12 -46 0 -86 C12 -46 9 -14 0 0Z',fill:'url(#gLeaf)'},a);
+    });
+    // capullo lateral
+    const bp = bez(P,.72), sdir = c.bend>=0 ? -1 : 1;
+    const bx = bp.x + sdir*30, by = bp.y - 26;
+    h('path',{class:'stem',pathLength:1,d:`M${bp.x} ${bp.y} Q${bp.x+sdir*8} ${bp.y-14} ${bx} ${by}`,
+      style:`--d:${sd+1.2}s;stroke-width:3`},pl);
+    const bw = h('g',{transform:`translate(${bx} ${by}) rotate(${sdir*25})`},pl);
+    const ba = h('g',{class:'grow',style:`--d:${sd+2.2}s`},bw);
+    h('ellipse',{cx:0,cy:-12,rx:6,ry:14,fill:c.tone==='pink'?'#f48fb9':'#e5f0c0'},ba);
+    h('path',{d:'M0 0 C-6 -6 -6 -16 0 -26',stroke:'rgba(255,255,255,.4)','stroke-width':1.5,fill:'none'},ba);
+
+    // flor lirio
+    const head = h('g',{class:'head','data-i':i,
+      transform:`translate(${hx} ${c.top}) rotate(${c.tilt}) scale(${c.s})`},pl);
+    h('circle',{cx:0,cy:0,r:105,fill:'url(#gHalo)',class:'halo',style:`--d:${sd+2.4}s`},head);
+    const pink = c.tone==='pink';
+    const fillP = pink ? 'url(#gLilyPink)' : 'url(#gLilyWhite)';
+    const spot  = pink ? '#9c1458' : '#d98aa8';
+    const vein  = pink ? 'rgba(120,10,60,.35)' : 'rgba(200,120,150,.45)';
+    const spots = [[-5,-30],[6,-38],[-3,-48],[5,-22],[-7,-18],[2,-58]];
+
+    const mkPetal = (ang,k,wide)=>{
+      const g1 = h('g',{transform:`rotate(${ang})`},head);
+      const pg = h('g',{class:'petal',style:`--i:${k};--d:${sd+1.9}s`},g1);
+      h('path',{d: wide ? 'M0 0 C-23 -18 -28 -58 0 -90 C28 -58 23 -18 0 0Z'
+                        : 'M0 0 C-17 -18 -22 -58 0 -94 C22 -58 17 -18 0 0Z',
+        fill:fillP,stroke:'rgba(0,0,0,.05)','stroke-width':.8},pg);
+      h('path',{d:'M0 -4 L0 -72',stroke:vein,'stroke-width':1.2,fill:'none'},pg);
+      spots.forEach(([sx,sy])=>h('circle',{cx:sx,cy:sy,r:1.4,fill:spot,opacity:.85},pg));
+    };
+    [0,120,240].forEach((a,k)=>mkPetal(a,k,false));
+    [60,180,300].forEach((a,k)=>mkPetal(a,k+3,true));
+
+    // estambres
+    const st = h('g',{class:'stamens',style:`--d:${sd+1.9+.9}s`},head);
+    [15,75,135,195,255,315].forEach(a=>{
+      const sg = h('g',{transform:`rotate(${a})`},st);
+      h('path',{d:'M0 0 Q4 -18 0 -36',stroke:'#e9e3a0','stroke-width':1.6,fill:'none'},sg);
+      h('ellipse',{cx:0,cy:-38,rx:3.2,ry:7.5,fill:'#8a3b12',transform:'rotate(6 0 -38)'},sg);
+    });
+    h('path',{d:'M0 0 Q-6 -24 -3 -44',stroke:'#f3ecbf','stroke-width':2.2,fill:'none'},st);
+    h('circle',{cx:-3,cy:-46,r:3,fill:'#b9d36c'},st);
+    h('circle',{cx:0,cy:0,r:5,fill:'#9fc65a'},st);
+  }
+});
+
+// pasto
+const gGrass = document.getElementById('grass');
+for(let i=0;i<70;i++){
+  const x = rnd(0,1000), hh = rnd(18,48);
+  h('path',{
+    class:'blade',
+    d:`M${x} ${BASE} Q${x+rnd(-6,6)} ${BASE-hh*.6} ${x+rnd(-14,14)} ${BASE-hh}`,
+    style:`transform-origin:${x}px ${BASE}px;--d:${rnd(.2,3)}s`
+  },gGrass);
+}
+
+function fit(){
+  garden.setAttribute('viewBox', innerWidth/innerHeight < .85 ? '190 0 620 640' : '0 0 1000 640');
+}
+
+/* ---------- mensajes ---------- */
+const card = document.getElementById('card');
+const msg  = document.getElementById('msg');
+const nextBtn = document.getElementById('next');
+const sign = document.getElementById('sign');
+let cur = -1, timer = null;
+
+function show(i){
+  cur = i;
+  msg.classList.add('out');
+  setTimeout(()=>{ msg.textContent = MSGS[i]; msg.classList.remove('out'); }, 450);
+  card.classList.add('in');
+}
+function nextMsg(){ show((cur+1) % MSGS.length); }
+function startCycle(){ clearInterval(timer); timer = setInterval(nextMsg, 8000); }
+
+nextBtn.addEventListener('click', ()=>{ nextMsg(); startCycle(); });
+
+document.getElementById('open').addEventListener('click', ()=>{
+  document.getElementById('intro').classList.add('hide');
+  setTimeout(()=>garden.classList.add('go'), 500);
+  setTimeout(()=>{ show(0); startCycle(); nextBtn.classList.add('in'); }, 5200);
+  setTimeout(()=>sign.classList.add('in'), 11000);
+});
+
+garden.addEventListener('click', e=>{
+  const head = e.target.closest('.head');
+  if(head){
+    const i = +head.dataset.i;
+    show(1 + (i % (MSGS.length-1)));
+    startCycle();
+  }
+});
+document.addEventListener('pointerdown', e=>{
+  if(e.target.closest('button')) return;
+  burst(e.clientX, e.clientY);
+});
+
+/* ---------- partículas: luciérnagas, pétalos, explosiones ---------- */
+const cv = document.getElementById('fx'), cx = cv.getContext('2d');
+let W, H, dpr;
+function rs(){
+  dpr = Math.min(devicePixelRatio||1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = W*dpr; cv.height = H*dpr;
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  fit();
+}
+addEventListener('resize', rs); rs();
+
+const flies = Array.from({length:38},()=>({
+  x:rnd(0,innerWidth), y:rnd(innerHeight*.3,innerHeight),
+  vx:rnd(-.2,.2), vy:rnd(-.25,.1), p:rnd(0,6.28), s:rnd(1.2,2.6)
+}));
+function newPetal(init){
+  return {
+    x:rnd(0,innerWidth), y:init?rnd(-innerHeight,innerHeight):-20,
+    vy:rnd(.4,1.1), vx:rnd(-.3,.4), r:rnd(5,10), a:rnd(0,6.28), va:rnd(-.02,.02),
+    sw:rnd(0,6.28), c:Math.random()<.5?'255,182,213':'255,244,250'
+  };
+}
+const petals = Array.from({length:26},()=>newPetal(true));
+const bursts = [];
+function burst(x,y){
+  const em = ['💗','🌸','✨','🤍','🍅'];
+  for(let i=0;i<16;i++){
+    const a = rnd(0,6.28), sp = rnd(1.5,5);
+    bursts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,l:1,e:em[i%em.length],sz:rnd(14,26)});
+  }
+}
+function loop(){
+  cx.clearRect(0,0,W,H);
+  for(const f of flies){
+    f.x += f.vx + Math.sin(f.p)*.15; f.y += f.vy; f.p += .02;
+    if(f.y<-10) f.y = H+10;
+    if(f.x<-10) f.x = W+10;
+    if(f.x>W+10) f.x = -10;
+    const al = .35 + .65*Math.abs(Math.sin(f.p*1.3));
+    cx.shadowColor = 'rgba(255,235,150,1)'; cx.shadowBlur = 14;
+    cx.fillStyle = `rgba(255,240,170,${al})`;
+    cx.beginPath(); cx.arc(f.x,f.y,f.s,0,6.28); cx.fill();
+  }
+  cx.shadowBlur = 0;
+  for(const p of petals){
+    p.sw += .02; p.x += p.vx + Math.sin(p.sw)*.6; p.y += p.vy; p.a += p.va;
+    if(p.y>H+20) Object.assign(p,newPetal(false));
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.a);
+    cx.fillStyle = `rgba(${p.c},.8)`;
+    cx.beginPath(); cx.ellipse(0,0,p.r,p.r*.55,0,0,6.28); cx.fill();
+    cx.restore();
+  }
+  for(let i=bursts.length-1;i>=0;i--){
+    const b = bursts[i];
+    b.x += b.vx; b.y += b.vy; b.vy += .08; b.l -= .012;
+    if(b.l<=0){ bursts.splice(i,1); continue; }
+    cx.globalAlpha = Math.max(b.l,0);
+    cx.font = `${b.sz}px serif`;
+    cx.fillText(b.e,b.x,b.y);
+  }
+  cx.globalAlpha = 1;
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
