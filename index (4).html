@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Para Daira 🌷</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:32px 20px;text-align:center;color:#fff5fa;overflow-x:hidden;
+    background:linear-gradient(#0a051f 0%,#241040 55%,#5b2050 100%);
+    font-family:"Dancing Script","Segoe Script","Brush Script MT",cursive;
+  }
+  .star{position:fixed;background:#fff;border-radius:50%;animation:tw var(--t) ease-in-out infinite alternate;animation-delay:var(--d)}
+  @keyframes tw{from{opacity:.1}to{opacity:.95}}
+  h1{font-size:clamp(2.6rem,9vw,4.6rem);margin:0;font-weight:700;position:relative;
+     background:linear-gradient(90deg,#ffd1e8,#fff,#ffb3d9);-webkit-background-clip:text;background-clip:text;color:transparent;
+     animation:fl 4s ease-in-out infinite alternate}
+  .sub{font-size:clamp(1.3rem,4vw,1.9rem);color:#ffc9e3;margin:.2em 0 1.6em;position:relative}
+  .cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;position:relative}
+  a.card{
+    width:min(84vw,300px);padding:26px 22px;border-radius:24px;text-decoration:none;color:#fff;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    box-shadow:0 10px 40px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s,background .3s;
+  }
+  a.card:hover{transform:translateY(-6px) scale(1.03);background:rgba(255,255,255,.16);box-shadow:0 0 40px rgba(255,130,195,.45)}
+  .emoji{font-size:3rem;display:block;margin-bottom:6px}
+  .t{font-size:1.7rem;font-weight:700;display:block}
+  .d{font-size:1.2rem;opacity:.85;display:block;margin-top:4px}
+  .foot{margin-top:2em;font-size:1.2rem;opacity:.8;position:relative}
+  @keyframes fl{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
+</style>
+</head>
+<body>
+<h1>Para Daira</h1>
+<div class="sub">mi tomatito cherry 🍅</div>
+
+<div class="cards">
+  <a class="card" href="lirios-para-ti.html">
+    <span class="emoji">🌸</span>
+    <span class="t">Los lirios</span>
+    <span class="d">El primer jardín que hice para ti</span>
+  </a>
+  <a class="card" href="para-daira.html">
+    <span class="emoji">🌷</span>
+    <span class="t">Alcatraces y lirios</span>
+    <span class="d">Uno nuevo, con mensajes para ti</span>
+  </a>
+  <a class="card" href="flores-fin-de-semana/">
+    <span class="emoji">💐</span>
+    <span class="t">Feliz fin de semana</span>
+    <span class="d">Alcatraces, lirios y rosas, con música</span>
+  </a>
+</div>
+
+<div class="foot">Sin prisa. Cuando quieras, aquí están. 🤍</div>
+
+<script>
+for(let i=0;i<80;i++){
+  const s=document.createElement('div'), z=1+Math.random()*2;
+  s.className='star';
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${z}px;height:${z}px;--t:${1.5+Math.random()*3}s;--d:${Math.random()*4}s`;
+  document.body.appendChild(s);
+}
+</script>
+</body>
+</html>
