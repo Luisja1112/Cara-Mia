@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Se abrieron 🌷</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="tema.css">
+</head>
+<body>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
+  <div class="moon"></div>
+  <canvas id="fx"></canvas>
+
+  <!-- Pantalla de inicio (el navegador exige un toque para dejar sonar la música) -->
+  <div id="intro">
+    <div class="intro-heart">🌷</div>
+    <p>Mira lo que pasó con tus flores, tomatito cherry</p>
+    <button id="abrir">Toca para abrir tu regalo</button>
+  </div>
+
+  <main id="escena">
+    <div id="textos">
+      <h1 class="titulo"><span id="t1"></span><span id="t1e" class="emo"></span></h1>
+      <h2 class="te-amo" id="t2"></h2>
+      <p class="mensaje" id="mensaje"></p>
+    </div>
+    <div id="jardin"></div>
+    <div class="pasto"></div>
+  </main>
+
+  <button id="musica-btn" title="Música" aria-label="Música">🎵</button>
+  <audio id="musica" loop preload="auto"></audio>
+
+  <script src="flowers.js"></script>
+  <script src="tema.js"></script>
+  <script src="engine.js"></script>
+</body>
+</html>

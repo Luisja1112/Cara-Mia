@@ -1,0 +1,304 @@
+/* Estilos base compartidos. Cada jardín define sus colores en tema.css */
+:root {
+  --acento: #ff5fa2;
+  --acento-claro: #ffc2de;
+  --glow: #ff1f7a;
+  --glow-flor: rgba(255, 120, 190, .85);
+  --bg1: #3b1466; --bg2: #1a0836; --bg3: #080212; --bg4: #080212;
+  --intro1: #4a1a7a; --intro2: #10031f;
+  --a1: #ff3d8b; --a2: #7c3aed; --a3: #22d3ee;
+  --astro1: #fffbe8; --astro2: #ffe9a8; --astro3: #f5c96b; --astro-glow: 255, 233, 168;
+  --btn1: #ff5fa2; --btn2: #b14cff;
+  --u: 1vh;   /* unidad de altura del jardín */
+  --k: 1;     /* escala de las flores */
+}
+@media (max-width: 700px) {
+  :root { --u: .66vh; --k: .68; }
+  .moon { width: 40px; top: 1.2vh; right: 3vw; opacity: .8; }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Quicksand', system-ui, sans-serif;
+  color: #fff;
+  background: linear-gradient(to bottom, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 80%, var(--bg4) 100%);
+}
+
+/* ---------- Fondo aurora ---------- */
+.aurora {
+  position: fixed;
+  width: 60vmax; height: 60vmax;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: .35;
+  mix-blend-mode: screen;
+  animation: deriva 18s ease-in-out infinite alternate;
+}
+.a1 { background: var(--a1); top: -20vmax; left: -15vmax; }
+.a2 { background: var(--a2); bottom: -25vmax; right: -15vmax; animation-delay: -6s; }
+.a3 { background: var(--a3); top: 20vmax; left: 30vw; opacity: .18; animation-delay: -12s; }
+
+@keyframes deriva {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate(8vmax, 5vmax) scale(1.2) rotate(40deg); }
+  100% { transform: translate(-6vmax, 9vmax) scale(.9) rotate(-30deg); }
+}
+
+/* ---------- Astro (luna o sol) ---------- */
+.moon {
+  position: fixed;
+  top: 5vh; right: 7vw;
+  width: clamp(50px, 9vw, 110px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--astro1), var(--astro2) 60%, var(--astro3));
+  box-shadow: 0 0 40px 10px rgba(var(--astro-glow), .45), 0 0 120px 40px rgba(var(--astro-glow), .18);
+  animation: astroPulso 5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes astroPulso {
+  50% { box-shadow: 0 0 60px 18px rgba(var(--astro-glow), .6), 0 0 160px 60px rgba(var(--astro-glow), .25); }
+}
+
+#fx {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ---------- Intro ---------- */
+#intro {
+  position: fixed; inset: 0;
+  z-index: 50;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.4rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 40%, var(--intro1), var(--intro2) 80%);
+  transition: opacity 1.4s ease, visibility 1.4s ease, transform 1.4s ease;
+}
+#intro.fuera { opacity: 0; visibility: hidden; transform: scale(1.3); }
+#intro p { font-family: 'Great Vibes', cursive; font-size: clamp(2rem, 7vw, 3.4rem); text-shadow: 0 0 20px var(--acento); }
+.intro-heart { font-size: 5rem; animation: latido 1.1s ease-in-out infinite; filter: drop-shadow(0 0 25px var(--acento)); }
+
+@keyframes latido {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.22); }
+}
+
+#abrir {
+  font: 600 1.1rem 'Quicksand', sans-serif;
+  color: #fff;
+  padding: .95rem 2rem;
+  border: none; border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--btn1), var(--btn2), var(--btn1));
+  background-size: 250% 250%;
+  animation: fluye 3s linear infinite, latido 1.8s ease-in-out infinite;
+  box-shadow: 0 0 30px var(--glow);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .35);
+}
+@keyframes fluye { to { background-position: 250% 50%; } }
+
+/* ---------- Textos ---------- */
+#escena { position: fixed; inset: 0; z-index: 10; }
+
+/* Bloque de textos en flujo normal: no se encima aunque el título ocupe 2 líneas */
+#textos {
+  position: absolute;
+  top: 4vh; left: 0; right: 0;
+  display: flex; flex-direction: column; align-items: center;
+  gap: .15rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.titulo {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(2rem, 7.4vw, 4.4rem);
+  line-height: 1.1;
+  background: linear-gradient(90deg, #fff, var(--acento-claro), var(--acento), var(--acento-claro), #fff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: brillo 4s linear infinite;
+  filter: drop-shadow(0 0 14px var(--glow));
+}
+@keyframes brillo { to { background-position: -300% 0; } }
+.titulo .emo { -webkit-text-fill-color: #fff; color: #fff; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif; font-size: .78em; }
+
+.te-amo {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 10vw, 6rem);
+  color: var(--acento);
+  text-shadow: 0 0 20px var(--acento), 0 0 50px var(--glow), 0 0 90px var(--glow);
+  opacity: 0;
+  transform: scale(.2) rotate(-8deg);
+}
+.te-amo.entra { animation: teAmo 1.6s cubic-bezier(.34, 1.56, .64, 1) forwards, latido 1.6s 1.6s ease-in-out infinite; }
+@keyframes teAmo { to { opacity: 1; transform: scale(1) rotate(0deg); } }
+
+.mensaje {
+  font-size: clamp(1rem, 3.6vw, 1.5rem);
+  font-weight: 600;
+  min-height: 3.4em;
+  max-width: 34rem;
+  margin-top: .4rem;
+  color: #fff;
+  text-shadow: 0 0 12px var(--glow), 0 2px 8px rgba(0, 0, 0, .45);
+  opacity: 0;
+}
+.mensaje.ver { animation: msgVida 4.6s ease-in-out forwards; }
+@keyframes msgVida {
+  0%   { opacity: 0; transform: translateY(20px) scale(.9); filter: blur(8px); }
+  15%  { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  85%  { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-20px) scale(1.05); filter: blur(8px); }
+}
+
+/* ---------- Jardín ---------- */
+#jardin { position: absolute; inset: 0; pointer-events: none; }
+
+.flower {
+  position: absolute;
+  bottom: 3vh;
+  left: var(--x);
+  width: 0;
+  height: calc(var(--h) * var(--u));
+  transform-origin: bottom center;
+  animation: sway 4s ease-in-out infinite alternate;
+  animation-delay: var(--d);
+  pointer-events: auto;
+  cursor: pointer;
+}
+@keyframes sway {
+  from { transform: rotate(-3.5deg); }
+  to   { transform: rotate(3.5deg); }
+}
+
+.stem {
+  position: absolute;
+  bottom: 0; left: -2.5px;
+  width: 5px; height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(to top, #0f5a2b, #34d072);
+  box-shadow: 0 0 12px rgba(52, 208, 114, .5);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+.go .stem { animation: crece 2.2s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: var(--d); }
+@keyframes crece { to { transform: scaleY(1); } }
+
+.leaf {
+  position: absolute;
+  width: 34px; height: 16px;
+  background: linear-gradient(135deg, #34d072, #0f5a2b);
+  border-radius: 0 100% 0 100%;
+  transform: scale(0);
+}
+.leaf.izq { right: 2px; transform-origin: 100% 100%; --rot: -25deg; border-radius: 100% 0 100% 0; }
+.leaf.der { left: 2px; transform-origin: 0 100%; --rot: 25deg; }
+.go .leaf { animation: hoja 1.2s cubic-bezier(.34, 1.56, .64, 1) forwards; animation-delay: calc(var(--d) + 1.2s); }
+@keyframes hoja { to { transform: scale(1) rotate(var(--rot)); } }
+
+.head {
+  position: absolute;
+  top: 0; left: 0;
+  width: calc(var(--s) * var(--k)); height: calc(var(--s) * var(--k));
+  margin: calc(var(--s) * var(--k) / -2) 0 0 calc(var(--s) * var(--k) / -2);
+  transform: scale(0) rotate(-120deg);
+  filter: drop-shadow(0 0 14px var(--glow-flor));
+}
+.head svg { width: 100%; height: 100%; overflow: visible; animation: giraLento 18s linear infinite; }
+.go .head { animation: florece 1.8s cubic-bezier(.34, 1.56, .64, 1) forwards; animation-delay: calc(var(--d) + 1.8s); }
+@keyframes florece { to { transform: scale(1) rotate(0deg); } }
+@keyframes giraLento { to { transform: rotate(360deg); } }
+.head.fija svg { animation: none; }
+
+/* Capullos que se abren: el capullo se desvanece y aparece la flor */
+.head.capa svg { animation: none; }
+.head.capa .bud, .head.capa .medio, .head.capa .bloom { position: absolute; inset: 0; }
+.head.capa .bud {
+  transform-origin: 50% 58%;
+  animation: respira 3.2s ease-in-out infinite alternate;
+  transition: opacity .9s ease;
+}
+@keyframes respira { from { transform: scale(.96) rotate(-2deg); } to { transform: scale(1.04) rotate(2deg); } }
+.head.capa .bloom {
+  opacity: 0;
+  transform: scale(.15) rotate(-50deg);
+  transition: transform 3s cubic-bezier(.25, .8, .3, 1.08), opacity 1.6s ease;
+}
+.head.capa .medio {
+  opacity: 0;
+  transform: scale(.45);
+  transform-origin: 50% 50%;
+  transition: transform 3.2s ease-out, opacity 1.6s ease;
+}
+.head.capa.media .medio { opacity: 1; transform: none; }
+.head.capa.media .bud { opacity: 0; animation: none; }
+.head.capa.abierta .medio { opacity: 0; transition: opacity 1.8s ease .6s; }
+.head.capa.abierta .bud { opacity: 0; animation: none; }
+.head.capa.abierta .bloom { opacity: 1; transform: none; }
+
+.flower:hover .head { filter: drop-shadow(0 0 28px #fff) brightness(1.15); }
+
+/* ---------- Pasto ---------- */
+.pasto {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 6vh;
+  background: linear-gradient(to top, #04170c, #0d4a24);
+  box-shadow: 0 -10px 40px rgba(52, 208, 114, .25);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+/* ---------- Botón música ---------- */
+#musica-btn {
+  position: fixed;
+  bottom: 14px; right: 14px;
+  z-index: 40;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: rgba(255, 255, 255, .12);
+  backdrop-filter: blur(8px);
+  color: #fff; font-size: 1.4rem;
+  cursor: pointer;
+  display: none;
+}
+#musica-btn.on { display: block; animation: latido 1.4s ease-in-out infinite; }
+#musica-btn.mute { opacity: .5; animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora, .moon, .head svg { animation: none; }
+}
+
+/* Nota fija que aparece cuando ya se abrieron todos los lirios */
+.nota {
+  position: absolute;
+  left: 50%; bottom: .8vh;
+  transform: translateX(-50%);
+  width: min(86vw, 40rem);
+  padding: 0 3.2rem;
+  text-align: center;
+  font-size: clamp(.72rem, 2.3vw, .95rem);
+  line-height: 1.25;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .7);
+  opacity: 0;
+  transition: opacity 2.5s ease;
+  z-index: 15;
+  pointer-events: none;
+}
+.nota.ver { opacity: 1; }

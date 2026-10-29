@@ -1,0 +1,8 @@
+:root {
+  --acento: #f48fb1; --acento-claro: #ffd6e3; --glow: #ff4f93; --glow-flor: rgba(255, 170, 205, .7);
+  --bg1: #1d0f2e; --bg2: #4b1d4f; --bg3: #8a3a63; --bg4: #c9615f;
+  --intro1: #5a2a63; --intro2: #14081f;
+  --a1: #ff6fa5; --a2: #ffd23f; --a3: #14b8a6;
+  --astro1: #fffbe0; --astro2: #ffe27a; --astro3: #ffc233; --astro-glow: 255, 226, 122;
+  --btn1: #f06292; --btn2: #f9a826;
+}
