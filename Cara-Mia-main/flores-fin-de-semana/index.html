@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Para mi tomatito cherry 🍅</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
+  <div class="moon"></div>
+  <canvas id="fx"></canvas>
+
+  <!-- Pantalla de inicio (necesaria para que el navegador deje reproducir música) -->
+  <div id="intro">
+    <div class="intro-heart">💗</div>
+    <p>Tengo algo para ti, tomatito cherry</p>
+    <button id="abrir">Toca para abrir tu regalo</button>
+  </div>
+
+  <main id="escena">
+    <h1 class="titulo"><span id="t1"></span></h1>
+    <h2 class="te-amo" id="t2"></h2>
+    <p class="mensaje" id="mensaje"></p>
+
+    <div id="jardin"></div>
+    <div class="pasto"></div>
+  </main>
+
+  <button id="musica-btn" title="Música" aria-label="Música">🎵</button>
+  <audio id="musica" loop preload="auto">
+    <!-- Pon aquí tu archivo: caballero.mp3 (en la misma carpeta) -->
+    <source src="caballero.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
