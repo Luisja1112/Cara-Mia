@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un ramo para ti</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap">
+<style>
+:root{color-scheme:dark;--bg1:#1a0f1c;--bg2:#05030a;--tx:#fff;--pk:#ff9ec7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:radial-gradient(circle at 50% 40%,var(--bg1),var(--bg2));color:var(--tx);font-family:'Dancing Script',Georgia,cursive;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#start{font:inherit;font-size:2rem;padding:.5em 1.2em;border:0;border-radius:2em;background:linear-gradient(90deg,#f441a5,#ff9ec7);color:#fff;cursor:pointer;box-shadow:0 0 30px #f441a588;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.07)}}
+#stage{display:none;flex-direction:column;align-items:center;width:100%}
+svg{height:62vh;max-width:96vw;overflow:visible}
+.sway{transform-origin:200px 470px;animation:sway 6s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(1.6deg)}}
+.stem{fill:none;stroke:#4f9d5a;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1.4s ease-out}
+.h{transform:scale(0);transform-origin:0 0;transition:transform 1.2s cubic-bezier(.3,1.5,.5,1)}
+.h.on{transform:scale(1)}
+#wrap{opacity:0;transition:opacity 1.5s}
+#wrap.on{opacity:1}
+#msg{min-height:3.2em;margin:.2em 1em 0;font-size:clamp(1.5rem,6vw,2.6rem);text-align:center;text-shadow:0 0 14px var(--pk);transition:opacity .6s;opacity:0}
+.fl{position:fixed;bottom:-2em;pointer-events:none;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-110vh) rotate(40deg);opacity:0}}
+</style>
+</head>
+<body>
+<button id="start">Presióname 💐</button>
+<div id="stage">
+<svg viewBox="0 0 400 500" aria-label="Ramo de lirios y alcatraces">
+<defs>
+<radialGradient id="gw" cx="50%" cy="70%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f3dce8"/></radialGradient>
+<linearGradient id="gp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff0f6"/><stop offset="1" stop-color="#ff7fb5"/></linearGradient>
+</defs>
+<g class="sway"><g id="stems"></g><g id="heads"></g>
+<g id="wrap"><path d="M120 385 L280 385 L222 498 L178 498Z" fill="#ff8fbd" stroke="#fff" stroke-width="2" opacity=".95"/><path d="M120 385 L200 440 L280 385" fill="none" stroke="#ffd0e4" stroke-width="3"/>
+<g transform="translate(200,420)"><path d="M0 0 C-40 -28 -48 18 0 0Z M0 0 C40 -28 48 18 0 0Z" fill="#fff"/><circle r="7" fill="#f441a5"/></g></g></g>
+</svg>
+<div id="msg"></div>
+</div>
+<audio id="mus" src="cancion.mp3" loop preload="auto"></audio>
+<script>
+var msgs=["Para ti, mi amor 💐","Cada lirio es una razón más para quererte","Cada alcatraz, lo elegante y hermosa que eres","Gracias por llenar mis días de color","Contigo todo florece","Eres mi flor favorita 🌸","Te amo muchísimo ❤️"];
+var F=[[200,120,0,'c'],[125,165,-20,'l'],[275,165,20,'l'],[70,250,-38,'c'],[330,250,38,'c'],[165,240,-8,'l'],[235,240,8,'l']];
+var NS='http://www.w3.org/2000/svg';
+function calla(){return '<path d="M0 24 C-36 8 -32 -44 -2 -62 C6 -42 32 -36 28 -4 C24 14 10 24 0 24Z" fill="url(#gw)" stroke="#e8c9d9" stroke-width="1"/><rect x="-4" y="-34" width="8" height="38" rx="4" fill="#f6c945"/>';}
+function lily(){var p='',a=[-75,-45,-15,15,45,75],i;for(i=0;i<6;i++)p+='<path transform="rotate('+a[i]+')" d="M0 0 C-15 -20 -11 -50 0 -64 C11 -50 15 -20 0 0Z" fill="url(#gp)" stroke="#ff5fa2" stroke-width=".8"/>';for(i=0;i<5;i++){var x=(i-2)*7;p+='<line x1="0" y1="0" x2="'+x+'" y2="-38" stroke="#fff" stroke-width="1.5"/><circle cx="'+x+'" cy="-39" r="3" fill="#ff9a2e"/>';}return p;}
+var st=document.getElementById('stems'),hd=document.getElementById('heads'),els=[];
+F.forEach(function(f){
+ var s=document.createElementNS(NS,'path');
+ s.setAttribute('d','M200 470 Q'+((200+f[0])/2)+' '+((470+f[1])/2+45)+' '+f[0]+' '+f[1]);
+ s.setAttribute('class','stem');st.appendChild(s);
+ var L=s.getTotalLength();s.style.strokeDasharray=L;s.style.strokeDashoffset=L;
+ var g=document.createElementNS(NS,'g');g.setAttribute('transform','translate('+f[0]+','+f[1]+') rotate('+f[2]+')');
+ g.innerHTML='<g class="h">'+(f[3]=='c'?calla():lily())+'</g>';hd.appendChild(g);
+ els.push([s,g.firstChild]);
+});
+var msg=document.getElementById('msg');
+function say(t){msg.style.opacity=0;setTimeout(function(){msg.textContent=t;msg.style.opacity=1;},600);}
+function heart(){var e=document.createElement('div');e.className='fl';e.textContent=['❤️','🌸','✨','💗'][Math.random()*4|0];e.style.left=Math.random()*100+'vw';e.style.fontSize=(14+Math.random()*18)+'px';e.style.animationDuration=(6+Math.random()*6)+'s';document.body.appendChild(e);setTimeout(function(){e.remove();},12500);}
+document.getElementById('start').onclick=function(){
+ this.style.display='none';document.getElementById('stage').style.display='flex';
+ var m=document.getElementById('mus');try{m.play();}catch(e){}
+ setInterval(heart,700);
+ var i=0;
+ (function next(){
+  if(i<els.length){var e=els[i];e[0].style.strokeDashoffset=0;setTimeout(function(){e[1].classList.add('on');},1000);say(msgs[i]);i++;setTimeout(next,2800);}
+  else{document.getElementById('wrap').classList.add('on');}
+ })();
+};
+</script>
+</body>
+</html>
