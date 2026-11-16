@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Un ramo para ti 💐</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="main-content">
+  <div class="container" id="start-btn-container">
+    <button id="start-btn" class="button"></button>
+  </div>
+
+  <audio id="bg-music" src="musica/es-por-ti.mp3" preload="none" loop></audio>
+
+  <!-- fondo: puntitos dorados que al final forman un corazón -->
+  <canvas id="galaxy-canvas"></canvas>
+  <!-- el ramo 3D: pétalos hechos de puntitos, dibujados en 3D -->
+  <canvas id="ramo-canvas"></canvas>
+
+  <div class="flower-message"></div>
+</div>
+<script src="js/ramo.js" defer></script>
+</body>
+</html>
